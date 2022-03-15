@@ -1,0 +1,63 @@
+@model BooksDB.Models.BooksModel
+@{
+    ViewData["Title"] = "AddBooks";
+
+    List<BooksModel> books = TempData["books"] as List<BooksModel>;
+}
+<h1>Add Books</h1>
+
+
+
+<form action="/Home/AddBooksPost" method="post">
+    <div class="form-group">
+        <label for="BookName">Book Name</label>
+        <input type="text" class="form-control" id="BookName" placeholder="Enter Book Name" asp-for="Name">
+
+    </div>
+    <div class="form-group">
+        <label for="BookAuthor">Book Author</label>
+        <input type="text" class="form-control" id="Author" placeholder="Author" asp-for="Author">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div class="container">
+    @if (books != null && books.Count >= 1)
+    {
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Author</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in books)
+                {
+                    <tr>
+                        <th scope="row">@book.id</th>
+
+                        <td>@book.Name</td>
+                        <td>@book.Author</td>
+                        <td>
+                            <form asp-action="RemoveBook" asp-controller="Home" method="post">
+                                <input type="hidden" asp-for="id" value="@book.id" />
+                                <button type="sumbit" class="btn btn-success">Remove</button>
+                            </form>
+                        </td>
+
+                    </tr>
+
+                }
+
+
+            </tbody>
+        </table>
+
+
+    }
+</div>
